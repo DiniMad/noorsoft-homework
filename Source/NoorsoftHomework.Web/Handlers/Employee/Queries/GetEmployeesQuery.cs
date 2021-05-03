@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using NoorsoftHomework.DataAccess.Interfaces;
@@ -21,11 +23,15 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Queries
     {
         private readonly IEmployeeRepository  _repository;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper              _mapper;
 
-        public GetEmployeesQuery(IEmployeeRepository repository, IHttpContextAccessor httpContextAccessor)
+        public GetEmployeesQuery(IEmployeeRepository  repository,
+                                 IHttpContextAccessor httpContextAccessor,
+                                 IMapper              mapper)
         {
             _repository          = repository;
             _httpContextAccessor = httpContextAccessor;
+            _mapper              = mapper;
         }
 
         public async Task<ApiResponse> Handle(SortingAndPagingOption option, CancellationToken cancellationToken)
@@ -34,11 +40,12 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Queries
                                                         option.SortDirection,
                                                         option.Offset,
                                                         option.PageSize);
-            var employees      = await _repository.Get(parameters);
+            var employees = await _repository.Get(parameters);
             var employeesCount = await _repository.Count();
-            var url            = _httpContextAccessor.HttpContext.GetUrl();
-            var data           = new DataCollection<Model.Employee>(employees, employeesCount, url, option);
-            
+            var url = _httpContextAccessor.HttpContext.GetUrl();
+            var employeesResource = _mapper.Map<List<EmployeeResource>>(employees);
+            var data = new DataCollection<EmployeeResource>(employeesResource, employeesCount, url, option);
+
             return new ApiResponse(StatusCodes.Status200OK, data);
         }
     }
