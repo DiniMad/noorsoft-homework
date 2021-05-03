@@ -63,6 +63,13 @@ DECLARE @query VARCHAR(MAX) = 'SELECT * FROM Employee ORDER BY ' + @ColumnNameTo
 EXEC (@query)
 GO
 
+CREATE PROCEDURE GetEmployeesCount 
+AS
+SELECT COUNT(Id) FROM Employee
+GO
+
+
+
 CREATE PROCEDURE InsertEmployee
 	@FirstName nvarchar(255),
 	@LastName nvarchar(255),
