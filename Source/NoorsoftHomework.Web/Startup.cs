@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NoorsoftHomework.Web.Helpers;
 
 namespace NoorsoftHomework.Web
 {
@@ -18,6 +19,7 @@ namespace NoorsoftHomework.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDataAccess();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
