@@ -12,10 +12,11 @@ namespace NoorsoftHomework.DataAccess
 {
     public class EmployeeRepository : IEmployeeRepository, IDisposable
     {
-        private const    string        GetEmployeesStoredProcedureName   = "GetEmployees";
-        private const    string        AddEmployeeStoredProcedureName    = "InsertEmployee";
-        private const    string        UpdateEmployeeStoredProcedureName = "UpdateEmployee";
-        private const    string        DeleteEmployeeStoredProcedureName = "DeleteEmployee";
+        private const    string        GetEmployeesStoredProcedureName      = "GetEmployees";
+        private const    string        GetEmployeesCountStoredProcedureName = "GetEmployeesCount";
+        private const    string        AddEmployeeStoredProcedureName       = "InsertEmployee";
+        private const    string        UpdateEmployeeStoredProcedureName    = "UpdateEmployee";
+        private const    string        DeleteEmployeeStoredProcedureName    = "DeleteEmployee";
         private readonly IDbConnection _connection;
 
         public EmployeeRepository(IDbConnection connection)
@@ -30,6 +31,14 @@ namespace NoorsoftHomework.DataAccess
                                                        parameters,
                                                        commandType: CommandType.StoredProcedure);
             return employees.ToList();
+        }
+
+        public async Task<int> Count()
+        {
+            var employeesCount =
+                await _connection.QueryFirstOrDefaultAsync<int>(GetEmployeesCountStoredProcedureName,
+                                                                commandType: CommandType.StoredProcedure);
+            return employeesCount;
         }
 
         public async Task Add(AddEmployeeModel addModel)
