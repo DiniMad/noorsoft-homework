@@ -84,6 +84,7 @@ BEGIN TRANSACTION [InsertEmployee]
 		EXEC AuditLog @ChangeLogType = 1, @EffectedRecordId = @effectedRecordId, @ModifiedFirstName = @FirstName, @ModifiedLastName = @LastName,
 					  @ModifiedBirthDate = @BirthDate, @ModifiedRecruitmentDate = @RecruitmentDate, @ModifiedSupervisorId = @SupervisorId
 		COMMIT TRANSACTION [InsertEmployee]
+		SELECT @effectedRecordId
 	END TRY
 	BEGIN CATCH
 		ROLLBACK TRANSACTION [InsertEmployee]

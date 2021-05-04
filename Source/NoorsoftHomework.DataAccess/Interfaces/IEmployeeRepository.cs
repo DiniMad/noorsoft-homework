@@ -9,7 +9,7 @@ namespace NoorsoftHomework.DataAccess.Interfaces
     {
         Task<IReadOnlyList<Employee>> Get(GetEmployeesParameters parameters);
         Task<int>                     Count();
-        Task                          Add(AddEmployeeModel       addModel);
+        Task<int>                     Add(AddEmployeeModel       addModel);
         Task                          Update(UpdateEmployeeModel updateModel);
         Task                          Delete(DeleteEmployeeModel deleteModel);
     }

@@ -41,11 +41,12 @@ namespace NoorsoftHomework.DataAccess
             return employeesCount;
         }
 
-        public async Task Add(AddEmployeeModel addModel)
+        public async Task<int> Add(AddEmployeeModel addModel)
         {
-            await _connection.ExecuteAsync(AddEmployeeStoredProcedureName,
-                                           addModel,
-                                           commandType: CommandType.StoredProcedure);
+            var id = await _connection.ExecuteScalarAsync<int>(AddEmployeeStoredProcedureName,
+                                                               addModel,
+                                                               commandType: CommandType.StoredProcedure);
+            return id;
         }
 
         public async Task Update(UpdateEmployeeModel updateModel)
