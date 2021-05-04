@@ -12,11 +12,12 @@ namespace NoorsoftHomework.DataAccess
 {
     public class EmployeeRepository : IEmployeeRepository, IDisposable
     {
-        private const    string        GetEmployeesStoredProcedureName      = "GetEmployees";
-        private const    string        GetEmployeesCountStoredProcedureName = "GetEmployeesCount";
-        private const    string        AddEmployeeStoredProcedureName       = "InsertEmployee";
-        private const    string        UpdateEmployeeStoredProcedureName    = "UpdateEmployee";
-        private const    string        DeleteEmployeeStoredProcedureName    = "DeleteEmployee";
+        private const    string        GetEmployeesStoredProcedureName         = "GetEmployees";
+        private const    string        GetEmployeesCountStoredProcedureName    = "GetEmployeesCount";
+        private const    string        IsEmployeeSupervisorStoredProcedureName = "IsEmployeeSupervisor";
+        private const    string        AddEmployeeStoredProcedureName          = "InsertEmployee";
+        private const    string        UpdateEmployeeStoredProcedureName       = "UpdateEmployee";
+        private const    string        DeleteEmployeeStoredProcedureName       = "DeleteEmployee";
         private readonly IDbConnection _connection;
 
         public EmployeeRepository(IDbConnection connection)
@@ -39,6 +40,15 @@ namespace NoorsoftHomework.DataAccess
                 await _connection.QueryFirstOrDefaultAsync<int>(GetEmployeesCountStoredProcedureName,
                                                                 commandType: CommandType.StoredProcedure);
             return employeesCount;
+        }
+
+        public async Task<bool> IsSupervisor(IsEmployeeSupervisorModel isSupervisorModel)
+        {
+            var isSupervisor =
+                await _connection.QueryFirstOrDefaultAsync<bool>(IsEmployeeSupervisorStoredProcedureName,
+                                                                 isSupervisorModel,
+                                                                 commandType: CommandType.StoredProcedure);
+            return isSupervisor;
         }
 
         public async Task<int> Add(AddEmployeeModel addModel)

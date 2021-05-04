@@ -68,7 +68,11 @@ AS
 SELECT COUNT(Id) FROM Employee
 GO
 
-
+CREATE PROCEDURE IsEmployeeSupervisor
+	@Id int
+AS
+SELECT COUNT(1) FROM Employee WHERE SupervisorId = @Id
+GO
 
 CREATE PROCEDURE InsertEmployee
 	@FirstName nvarchar(255),
