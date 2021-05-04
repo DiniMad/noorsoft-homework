@@ -26,8 +26,7 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Commands
         {
             var updateModel = _mapper.Map<UpdateEmployeeModel>(request);
             await _repository.Update(updateModel);
-            var updatedEmployeeResource = _mapper.Map<EmployeeResource>(updateModel);
-            return new ApiResponse(StatusCodes.Status201Created, updatedEmployeeResource);
+            return new ApiResponse(StatusCodes.Status204NoContent, null);
         }
     }
 }
