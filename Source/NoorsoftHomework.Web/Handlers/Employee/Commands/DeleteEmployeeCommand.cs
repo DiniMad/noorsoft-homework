@@ -24,6 +24,10 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Commands
 
         public async Task<ApiResponse> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
+            var isSupervisorModel = _mapper.Map<IsEmployeeSupervisorModel>(request);
+            var isSupervisor      = await _repository.IsSupervisor(isSupervisorModel);
+            if (isSupervisor is true) return new ApiResponse(StatusCodes.Status409Conflict, null);
+            
             var deleteModel = _mapper.Map<DeleteEmployeeModel>(request);
             await _repository.Delete(deleteModel);
             return new ApiResponse(StatusCodes.Status204NoContent, null);

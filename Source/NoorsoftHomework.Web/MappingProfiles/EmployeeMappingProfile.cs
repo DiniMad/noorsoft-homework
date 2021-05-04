@@ -16,6 +16,7 @@ namespace NoorsoftHomework.Web.MappingProfiles
             MapAddEmployeeCommandToAddEmployeeModel();
             MapIntIdAndAddEmployeeModelToEmployeeResource();
             MapDeleteEmployeeCommandToDeleteEmployeeModel();
+            MapDeleteEmployeeCommandToIsEmployeeSupervisorModel();
         }
 
         private void MapEmployeeToEmployeeResource()
@@ -77,6 +78,12 @@ namespace NoorsoftHomework.Web.MappingProfiles
         {
             CreateMap<DeleteEmployeeCommand, DeleteEmployeeModel>()
                 .ConstructUsing(command => new DeleteEmployeeModel(command.Id));
+        }
+
+        private void MapDeleteEmployeeCommandToIsEmployeeSupervisorModel()
+        {
+            CreateMap<DeleteEmployeeCommand, IsEmployeeSupervisorModel>()
+                .ConstructUsing(command => new IsEmployeeSupervisorModel(command.Id));
         }
     }
 }
