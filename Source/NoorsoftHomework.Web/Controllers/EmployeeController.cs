@@ -39,5 +39,12 @@ namespace NoorsoftHomework.Web.Controllers
             var (statusCode, data) = await _sender.Send(new AddEmployeeCommand(resource));
             return StatusCode(statusCode, data);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ApiResponse>> Delete(int id)
+        {
+            var (statusCode, data) = await _sender.Send(new DeleteEmployeeCommand(id));
+            return StatusCode(statusCode, data);
+        }
     }
 }

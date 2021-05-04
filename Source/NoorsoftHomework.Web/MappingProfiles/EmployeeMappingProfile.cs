@@ -15,6 +15,7 @@ namespace NoorsoftHomework.Web.MappingProfiles
             MapUpdateEmployeeCommandToUpdateEmployeeModel();
             MapAddEmployeeCommandToAddEmployeeModel();
             MapIntIdAndAddEmployeeModelToEmployeeResource();
+            MapDeleteEmployeeCommandToDeleteEmployeeModel();
         }
 
         private void MapEmployeeToEmployeeResource()
@@ -70,6 +71,12 @@ namespace NoorsoftHomework.Web.MappingProfiles
                     WorkExperienceInYears = (byte) tuple.addModel.RecruitmentDate.TillNowInYears(),
                     IsManager             = tuple.addModel.SupervisorId == null,
                 });
+        }
+
+        private void MapDeleteEmployeeCommandToDeleteEmployeeModel()
+        {
+            CreateMap<DeleteEmployeeCommand, DeleteEmployeeModel>()
+                .ConstructUsing(command => new DeleteEmployeeModel(command.Id));
         }
     }
 }
