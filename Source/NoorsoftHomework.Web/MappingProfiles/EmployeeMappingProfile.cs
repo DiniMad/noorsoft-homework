@@ -13,6 +13,8 @@ namespace NoorsoftHomework.Web.MappingProfiles
         {
             MapEmployeeToEmployeeResource();
             MapUpdateEmployeeCommandToUpdateEmployeeModel();
+            MapAddEmployeeCommandToAddEmployeeModel();
+            MapIntIdAndAddEmployeeModelToEmployeeResource();
         }
 
         private void MapEmployeeToEmployeeResource()
@@ -51,6 +53,34 @@ namespace NoorsoftHomework.Web.MappingProfiles
                 .ForMember(model => model.SupervisorId,
                            expression => expression.MapFrom(request =>
                                                                 request.Resource.SupervisorId));
+        }
+
+        private void MapAddEmployeeCommandToAddEmployeeModel()
+        {
+            CreateMap<AddEmployeeCommand, AddEmployeeModel>()
+                .ConstructUsing(command =>
+                                    new AddEmployeeModel(command.Resource.FirstName,
+                                                         command.Resource.LastName,
+                                                         command.Resource.BirthDate.PersianToDateTime(),
+                                                         command.Resource.RecruitmentDate.PersianToDateTime(),
+                                                         command.Resource.SupervisorId));
+        }
+
+        private void MapIntIdAndAddEmployeeModelToEmployeeResource()
+        {
+            CreateMap<(int id, AddEmployeeModel addModel), EmployeeResource>()
+                .ConstructUsing(tuple => new EmployeeResource
+                {
+                    Id                    = tuple.id,
+                    FirstName             = tuple.addModel.FirstName,
+                    LastName              = tuple.addModel.LastName,
+                    BirthDate             = tuple.addModel.BirthDate.ToPersianDate(),
+                    RecruitmentDate       = tuple.addModel.RecruitmentDate.ToPersianDate(),
+                    SupervisorId          = tuple.addModel.SupervisorId,
+                    AgeInYears            = (byte) tuple.addModel.BirthDate.TillNowInYears(),
+                    WorkExperienceInYears = (byte) tuple.addModel.RecruitmentDate.TillNowInYears(),
+                    IsManager             = tuple.addModel.SupervisorId == null,
+                });
         }
     }
 }

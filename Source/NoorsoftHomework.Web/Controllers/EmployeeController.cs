@@ -32,5 +32,12 @@ namespace NoorsoftHomework.Web.Controllers
             var (statusCode, data) = await _sender.Send(new UpdateEmployeeCommand(id, resource));
             return StatusCode(statusCode, data);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ApiResponse>> Add(AddEmployeeResource resource)
+        {
+            var (statusCode, data) = await _sender.Send(new AddEmployeeCommand(resource));
+            return StatusCode(statusCode, data);
+        }
     }
 }
