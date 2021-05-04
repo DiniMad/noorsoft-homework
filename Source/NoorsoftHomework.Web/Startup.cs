@@ -21,7 +21,7 @@ namespace NoorsoftHomework.Web
         {
             services.AddControllers();
             services.AddDataAccess();
-            services.AddHttpContextAccessor();
+            services.AddActionHttpContextAccessor();
             services.AddMediatR(typeof(Startup));
             services.AddAutoMapper(typeof(Startup));
         }

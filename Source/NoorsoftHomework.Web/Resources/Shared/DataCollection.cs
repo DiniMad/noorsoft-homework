@@ -1,25 +1,27 @@
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using NoorsoftHomework.Web.Controllers;
 
 namespace NoorsoftHomework.Web.Resources.Shared
 {
     public class DataCollection<TData>
     {
-        public           IEnumerable<TData>     Collection { get; }
-        public           int                    TotalCount { get; }
-        public           string?                Next       { get; }
-        public           string?                Previous   { get; }
-        private readonly string                 _baseUrl;
+        public           IEnumerable<TData>       Collection { get; }
+        public           int                      TotalCount { get; }
+        public           string?                  Next       { get; }
+        public           string?                  Previous   { get; }
         private readonly SortingAndPagingResource _sortingAndPagingResource;
+        private readonly IUrlHelper               _urlHelper;
 
-        public DataCollection(IReadOnlyList<TData>   collection,
-                                      int                    totalCount,
-                                      string                 baseUrl,
-                                      SortingAndPagingResource sortingAndPagingResource)
+        public DataCollection(IReadOnlyList<TData>     collection,
+                              int                      totalCount,
+                              SortingAndPagingResource sortingAndPagingResource,
+                              IUrlHelper               urlHelper)
         {
-            Collection              = collection;
-            TotalCount              = totalCount;
-            _baseUrl                = baseUrl;
+            Collection                = collection;
+            TotalCount                = totalCount;
             _sortingAndPagingResource = sortingAndPagingResource;
+            _urlHelper                = urlHelper;
 
             var hasNext = _sortingAndPagingResource.Offset + _sortingAndPagingResource.PageSize < totalCount;
             Next = hasNext ? CreateNavigationLink(1) : null;
@@ -30,25 +32,10 @@ namespace NoorsoftHomework.Web.Resources.Shared
 
         private string CreateNavigationLink(sbyte amount)
         {
-            var (sortColumn, sortDirection, pageSize, pageNumber) = _sortingAndPagingResource;
-            var sortColumnParameter    = CreateQueryParameterPair(nameof(sortColumn),    sortColumn);
-            var sortDirectionParameter = CreateQueryParameterPair(nameof(sortDirection), sortDirection);
-            var pageSizeParameter      = CreateQueryParameterPair(nameof(pageSize),      pageSize);
-            var pageNumberParameter    = CreateQueryParameterPair(nameof(pageNumber),    pageNumber + amount);
-            var parameters = CreateQueryParameters(sortColumnParameter,
-                                                   sortDirectionParameter,
-                                                   pageSizeParameter,
-                                                   pageNumberParameter);
-            var link = $"{_baseUrl}?{parameters}";
+            var (column, direction, pageSize, pageNumber) = _sortingAndPagingResource;
+            var option = new SortingAndPagingResource(column, direction, pageSize, pageNumber + amount);
+            var link   = _urlHelper.ActionLink(nameof(EmployeeController.Get), "Employee", option);
             return link;
-        }
-
-        private string CreateQueryParameterPair(string name, object value) => $"{name}={value}";
-
-        private string CreateQueryParameters(params string[] parameters)
-        {
-            var joinedParameters = string.Join('&', parameters);
-            return joinedParameters;
         }
     }
 }

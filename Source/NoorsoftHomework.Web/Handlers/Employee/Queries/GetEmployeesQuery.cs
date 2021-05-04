@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using NoorsoftHomework.DataAccess.Interfaces;
 using NoorsoftHomework.DataAccess.Models;
-using NoorsoftHomework.Web.Helpers;
 using NoorsoftHomework.Web.Resources.Employee;
 using NoorsoftHomework.Web.Resources.Shared;
 
@@ -16,17 +18,18 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Queries
 
     public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, ApiResponse>
     {
-        private readonly IEmployeeRepository  _repository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IMapper              _mapper;
+        private readonly IEmployeeRepository _repository;
+        private readonly IUrlHelper          _urlHelper;
+        private readonly IMapper             _mapper;
 
-        public GetEmployeesQueryHandler(IEmployeeRepository  repository,
-                                        IHttpContextAccessor httpContextAccessor,
-                                        IMapper              mapper)
+        public GetEmployeesQueryHandler(IEmployeeRepository    repository,
+                                        IUrlHelperFactory      urlHelperFactory,
+                                        IActionContextAccessor actionContextAccessor,
+                                        IMapper                mapper)
         {
-            _repository          = repository;
-            _httpContextAccessor = httpContextAccessor;
-            _mapper              = mapper;
+            _repository = repository;
+            _urlHelper  = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
+            _mapper     = mapper;
         }
 
         public async Task<ApiResponse> Handle(GetEmployeesQuery query, CancellationToken cancellationToken)
@@ -39,11 +42,10 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Queries
                                                         resource.PageSize);
             var employees = await _repository.Get(parameters);
             if (employees.Count is 0) return new ApiResponse(StatusCodes.Status404NotFound, null);
-            
+
             var employeesCount = await _repository.Count();
-            var url = _httpContextAccessor.HttpContext.GetUrl();
             var employeesResource = _mapper.Map<List<EmployeeResource>>(employees);
-            var data = new DataCollection<EmployeeResource>(employeesResource, employeesCount, url, resource);
+            var data = new DataCollection<EmployeeResource>(employeesResource, employeesCount, resource, _urlHelper);
 
             return new ApiResponse(StatusCodes.Status200OK, data);
         }
