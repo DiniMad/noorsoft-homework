@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using NoorsoftHomework.Web.Handlers.Employee.Queries;
 
-namespace NoorsoftHomework.Web.Resources
+namespace NoorsoftHomework.Web.Resources.Shared
 {
     public class DataCollection<TData>
     {

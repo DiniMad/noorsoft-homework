@@ -1,6 +1,6 @@
 using NoorsoftHomework.DataAccess.Models;
 
-namespace NoorsoftHomework.Web.Resources
+namespace NoorsoftHomework.Web.Resources.Shared
 {
     public record SortingAndPagingResource(SortColumn    SortColumn,
                                            SortDirection SortDirection,
