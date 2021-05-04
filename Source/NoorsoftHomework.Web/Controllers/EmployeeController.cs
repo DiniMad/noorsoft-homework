@@ -28,7 +28,7 @@ namespace NoorsoftHomework.Web.Controllers
         [HttpPost("{id}")]
         public async Task<ActionResult<ApiResponse>> Update(int id, UpdateEmployeeResource resource)
         {
-            var (statusCode, data) = await _sender.Send(new UpdateEmployeeRequest(id, resource));
+            var (statusCode, data) = await _sender.Send(new UpdateEmployeeCommand(id, resource));
             return StatusCode(statusCode, data);
         }
     }

@@ -9,22 +9,22 @@ using NoorsoftHomework.Web.Resources;
 
 namespace NoorsoftHomework.Web.Handlers.Employee.Commands
 {
-    public record UpdateEmployeeRequest(int Id, UpdateEmployeeResource Resource) : IRequest<ApiResponse>;
+    public record UpdateEmployeeCommand(int Id, UpdateEmployeeResource Resource) : IRequest<ApiResponse>;
 
-    public class UpdateEmployeeCommand : IRequestHandler<UpdateEmployeeRequest, ApiResponse>
+    public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, ApiResponse>
     {
         private readonly IMapper             _mapper;
         private readonly IEmployeeRepository _repository;
 
-        public UpdateEmployeeCommand(IMapper mapper, IEmployeeRepository repository)
+        public UpdateEmployeeCommandHandler(IMapper mapper, IEmployeeRepository repository)
         {
             _mapper     = mapper;
             _repository = repository;
         }
 
-        public async Task<ApiResponse> Handle(UpdateEmployeeRequest request, CancellationToken cancellationToken)
+        public async Task<ApiResponse> Handle(UpdateEmployeeCommand command, CancellationToken cancellationToken)
         {
-            var updateModel = _mapper.Map<UpdateEmployeeModel>(request);
+            var updateModel = _mapper.Map<UpdateEmployeeModel>(command);
             await _repository.Update(updateModel);
             return new ApiResponse(StatusCodes.Status204NoContent, null);
         }

@@ -12,7 +12,7 @@ namespace NoorsoftHomework.Web.MappingProfiles
         public EmployeeMappingProfile()
         {
             MapEmployeeToEmployeeResource();
-            MapUpdateEmployeeResourceToUpdateEmployeeModel();
+            MapUpdateEmployeeCommandToUpdateEmployeeModel();
         }
 
         private void MapEmployeeToEmployeeResource()
@@ -30,9 +30,9 @@ namespace NoorsoftHomework.Web.MappingProfiles
                            expression => expression.MapFrom(employee => employee.SupervisorId == null));
         }
 
-        private void MapUpdateEmployeeResourceToUpdateEmployeeModel()
+        private void MapUpdateEmployeeCommandToUpdateEmployeeModel()
         {
-            CreateMap<UpdateEmployeeRequest, UpdateEmployeeModel>()
+            CreateMap<UpdateEmployeeCommand, UpdateEmployeeModel>()
                 .ForMember(model => model.Id,
                            expression => expression.MapFrom(request =>
                                                                 request.Id))
