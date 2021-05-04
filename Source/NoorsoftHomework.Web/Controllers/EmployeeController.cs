@@ -20,8 +20,8 @@ namespace NoorsoftHomework.Web.Controllers
         [HttpGet]
         public async Task<ActionResult<ApiResponse>> Get([FromQuery] SortingAndPagingOption sortingAndPagingOption)
         {
-            var response = await _sender.Send(sortingAndPagingOption);
-            return response;
+            var (statusCode,data) = await _sender.Send(sortingAndPagingOption);
+            return StatusCode(statusCode, data);
         }
     }
 }
