@@ -41,6 +41,7 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Queries
                                                         option.Offset,
                                                         option.PageSize);
             var employees = await _repository.Get(parameters);
+            if (employees.Count is 0) return new ApiResponse(StatusCodes.Status404NotFound, null);
             var employeesCount = await _repository.Count();
             var url = _httpContextAccessor.HttpContext.GetUrl();
             var employeesResource = _mapper.Map<List<EmployeeResource>>(employees);
