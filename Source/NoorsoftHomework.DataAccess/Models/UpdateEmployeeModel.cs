@@ -7,5 +7,10 @@ namespace NoorsoftHomework.DataAccess.Models
                                       string   LastName,
                                       DateTime BirthDate,
                                       DateTime RecruitmentDate,
-                                      int?     SupervisorId);
+                                      int?     SupervisorId)
+    {
+        public UpdateEmployeeModel() : this(default, default, default, default, default, default)
+        {
+        }
+    }
 }
