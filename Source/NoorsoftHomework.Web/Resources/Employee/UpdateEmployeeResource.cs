@@ -1,4 +1,4 @@
-namespace NoorsoftHomework.Web.Resources
+namespace NoorsoftHomework.Web.Resources.Employee
 {
     public class UpdateEmployeeResource
     {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NoorsoftHomework.Web.Handlers.Employee.Commands;
 using NoorsoftHomework.Web.Handlers.Employee.Queries;
 using NoorsoftHomework.Web.Resources;
+using NoorsoftHomework.Web.Resources.Employee;
 
 namespace NoorsoftHomework.Web.Controllers
 {
