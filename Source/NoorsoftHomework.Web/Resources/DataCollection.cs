@@ -10,28 +10,28 @@ namespace NoorsoftHomework.Web.Resources
         public           string?                Next       { get; }
         public           string?                Previous   { get; }
         private readonly string                 _baseUrl;
-        private readonly SortingAndPagingOption _sortingAndPagingOption;
+        private readonly SortingAndPagingResource _sortingAndPagingResource;
 
         public DataCollection(IReadOnlyList<TData>   collection,
                                       int                    totalCount,
                                       string                 baseUrl,
-                                      SortingAndPagingOption sortingAndPagingOption)
+                                      SortingAndPagingResource sortingAndPagingResource)
         {
             Collection              = collection;
             TotalCount              = totalCount;
             _baseUrl                = baseUrl;
-            _sortingAndPagingOption = sortingAndPagingOption;
+            _sortingAndPagingResource = sortingAndPagingResource;
 
-            var hasNext = _sortingAndPagingOption.Offset + _sortingAndPagingOption.PageSize < totalCount;
+            var hasNext = _sortingAndPagingResource.Offset + _sortingAndPagingResource.PageSize < totalCount;
             Next = hasNext ? CreateNavigationLink(1) : null;
 
-            var hasPrevious = _sortingAndPagingOption.Offset > 0;
+            var hasPrevious = _sortingAndPagingResource.Offset > 0;
             Previous = hasPrevious ? CreateNavigationLink(-1) : null;
         }
 
         private string CreateNavigationLink(sbyte amount)
         {
-            var (sortColumn, sortDirection, pageSize, pageNumber) = _sortingAndPagingOption;
+            var (sortColumn, sortDirection, pageSize, pageNumber) = _sortingAndPagingResource;
             var sortColumnParameter    = CreateQueryParameterPair(nameof(sortColumn),    sortColumn);
             var sortDirectionParameter = CreateQueryParameterPair(nameof(sortDirection), sortDirection);
             var pageSizeParameter      = CreateQueryParameterPair(nameof(pageSize),      pageSize);

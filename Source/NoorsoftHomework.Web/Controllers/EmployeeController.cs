@@ -19,9 +19,9 @@ namespace NoorsoftHomework.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse>> Get([FromQuery] SortingAndPagingOption sortingAndPagingOption)
+        public async Task<ActionResult<ApiResponse>> Get([FromQuery] SortingAndPagingResource resource)
         {
-            var (statusCode, data) = await _sender.Send(sortingAndPagingOption);
+            var (statusCode, data) = await _sender.Send(new GetEmployeesQuery(resource));
             return StatusCode(statusCode, data);
         }
 

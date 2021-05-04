@@ -11,41 +11,38 @@ using NoorsoftHomework.Web.Resources;
 
 namespace NoorsoftHomework.Web.Handlers.Employee.Queries
 {
-    public record SortingAndPagingOption(SortColumn    SortColumn,
-                                         SortDirection SortDirection,
-                                         int           PageSize   = 10,
-                                         int           PageNumber = 1) : IRequest<ApiResponse>
-    {
-        public int Offset => (PageNumber - 1) * PageSize;
-    }
+    public record GetEmployeesQuery(SortingAndPagingResource Resource) : IRequest<ApiResponse>;
 
-    public class GetEmployeesQuery : IRequestHandler<SortingAndPagingOption, ApiResponse>
+    public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, ApiResponse>
     {
         private readonly IEmployeeRepository  _repository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper              _mapper;
 
-        public GetEmployeesQuery(IEmployeeRepository  repository,
-                                 IHttpContextAccessor httpContextAccessor,
-                                 IMapper              mapper)
+        public GetEmployeesQueryHandler(IEmployeeRepository  repository,
+                                        IHttpContextAccessor httpContextAccessor,
+                                        IMapper              mapper)
         {
             _repository          = repository;
             _httpContextAccessor = httpContextAccessor;
             _mapper              = mapper;
         }
 
-        public async Task<ApiResponse> Handle(SortingAndPagingOption option, CancellationToken cancellationToken)
+        public async Task<ApiResponse> Handle(GetEmployeesQuery query, CancellationToken cancellationToken)
         {
-            var parameters = new GetEmployeesParameters(option.SortColumn,
-                                                        option.SortDirection,
-                                                        option.Offset,
-                                                        option.PageSize);
+            var resource = query.Resource;
+
+            var parameters = new GetEmployeesParameters(resource.SortColumn,
+                                                        resource.SortDirection,
+                                                        resource.Offset,
+                                                        resource.PageSize);
             var employees = await _repository.Get(parameters);
             if (employees.Count is 0) return new ApiResponse(StatusCodes.Status404NotFound, null);
+            
             var employeesCount = await _repository.Count();
             var url = _httpContextAccessor.HttpContext.GetUrl();
             var employeesResource = _mapper.Map<List<EmployeeResource>>(employees);
-            var data = new DataCollection<EmployeeResource>(employeesResource, employeesCount, url, option);
+            var data = new DataCollection<EmployeeResource>(employeesResource, employeesCount, url, resource);
 
             return new ApiResponse(StatusCodes.Status200OK, data);
         }
