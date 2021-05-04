@@ -25,5 +25,15 @@ namespace NoorsoftHomework.Web.Helpers
 
         private static readonly DateTime ZeroTime = new(1, 1, 1);
         private static          DateTime ToDateTime(this TimeSpan duration) => ZeroTime + duration;
+
+        public static DateTime PersianToDateTime(this string persianDate)
+        {
+            var dateArray = persianDate.Split('/');
+            var year      = int.Parse(dateArray[0]);
+            var month     = int.Parse(dateArray[1]);
+            var day       = int.Parse(dateArray[2]);
+            var dateTime  = PersianCalendar.ToDateTime(year, month, day, 0, 0, 0, 0);
+            return dateTime;
+        }
     }
 }
