@@ -13,7 +13,6 @@ namespace NoorsoftHomework.Web.MappingProfiles
         {
             MapEmployeeToEmployeeResource();
             MapUpdateEmployeeResourceToUpdateEmployeeModel();
-            UpdateEmployeeModelToEmployeeResource();
         }
 
         private void MapEmployeeToEmployeeResource()
@@ -30,6 +29,7 @@ namespace NoorsoftHomework.Web.MappingProfiles
                 .ForMember(resource => resource.IsManager,
                            expression => expression.MapFrom(employee => employee.SupervisorId == null));
         }
+
         private void MapUpdateEmployeeResourceToUpdateEmployeeModel()
         {
             CreateMap<UpdateEmployeeRequest, UpdateEmployeeModel>()
@@ -51,20 +51,6 @@ namespace NoorsoftHomework.Web.MappingProfiles
                 .ForMember(model => model.SupervisorId,
                            expression => expression.MapFrom(request =>
                                                                 request.Resource.SupervisorId));
-        }
-        private void UpdateEmployeeModelToEmployeeResource()
-        {
-            CreateMap< UpdateEmployeeModel, EmployeeResource>()
-                .ForMember(resource => resource.BirthDate,
-                           expression => expression.MapFrom(employee => employee.BirthDate.ToPersianDate()))
-                .ForMember(resource => resource.RecruitmentDate,
-                           expression => expression.MapFrom(employee => employee.RecruitmentDate.ToPersianDate()))
-                .ForMember(resource => resource.AgeInYears,
-                           expression => expression.MapFrom(employee => employee.BirthDate.TillNowInYears()))
-                .ForMember(resource => resource.WorkExperienceInYears,
-                           expression => expression.MapFrom(employee => employee.RecruitmentDate.TillNowInYears()))
-                .ForMember(resource => resource.IsManager,
-                           expression => expression.MapFrom(employee => employee.SupervisorId == null));
         }
     }
 }
