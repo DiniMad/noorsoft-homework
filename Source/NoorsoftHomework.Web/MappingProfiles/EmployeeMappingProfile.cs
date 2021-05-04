@@ -35,24 +35,13 @@ namespace NoorsoftHomework.Web.MappingProfiles
         private void MapUpdateEmployeeCommandToUpdateEmployeeModel()
         {
             CreateMap<UpdateEmployeeCommand, UpdateEmployeeModel>()
-                .ForMember(model => model.Id,
-                           expression => expression.MapFrom(request =>
-                                                                request.Id))
-                .ForMember(model => model.FirstName,
-                           expression => expression.MapFrom(request =>
-                                                                request.Resource.FirstName))
-                .ForMember(model => model.LastName,
-                           expression => expression.MapFrom(request =>
-                                                                request.Resource.LastName))
-                .ForMember(model => model.BirthDate,
-                           expression => expression.MapFrom(request =>
-                                                                request.Resource.BirthDate.PersianToDateTime()))
-                .ForMember(model => model.RecruitmentDate,
-                           expression => expression.MapFrom(request =>
-                                                                request.Resource.RecruitmentDate.PersianToDateTime()))
-                .ForMember(model => model.SupervisorId,
-                           expression => expression.MapFrom(request =>
-                                                                request.Resource.SupervisorId));
+                .ConstructUsing(command =>
+                                    new UpdateEmployeeModel(command.Id,
+                                                            command.Resource.FirstName,
+                                                            command.Resource.LastName,
+                                                            command.Resource.BirthDate.PersianToDateTime(),
+                                                            command.Resource.RecruitmentDate.PersianToDateTime(),
+                                                            command.Resource.SupervisorId));
         }
 
         private void MapAddEmployeeCommandToAddEmployeeModel()
