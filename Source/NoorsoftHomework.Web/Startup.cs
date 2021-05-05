@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NoorsoftHomework.Web.Helpers;
+using NoorsoftHomework.Web.Validation;
 
 namespace NoorsoftHomework.Web
 {
@@ -19,7 +20,8 @@ namespace NoorsoftHomework.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                    .AddValidation();
             services.AddDataAccess();
             services.AddActionHttpContextAccessor();
             services.AddMediatR(typeof(Startup));
