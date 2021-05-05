@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using NoorsoftHomework.Web.Exceptions;
 
 namespace NoorsoftHomework.Web.Helpers
 {
@@ -28,11 +29,20 @@ namespace NoorsoftHomework.Web.Helpers
 
         public static DateTime PersianToDateTime(this string persianDate)
         {
-            var dateArray = persianDate.Split('/');
-            var year      = int.Parse(dateArray[0]);
-            var month     = int.Parse(dateArray[1]);
-            var day       = int.Parse(dateArray[2]);
-            var dateTime  = PersianCalendar.ToDateTime(year, month, day, 0, 0, 0, 0);
+            var      dateArray = persianDate.Split('/');
+            var      year      = int.Parse(dateArray[0]);
+            var      month     = int.Parse(dateArray[1]);
+            var      day       = int.Parse(dateArray[2]);
+            DateTime dateTime;
+            try
+            {
+                dateTime = PersianCalendar.ToDateTime(year, month, day, 0, 0, 0, 0);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw new DateOutOfRangeException();
+            }
+
             return dateTime;
         }
     }
