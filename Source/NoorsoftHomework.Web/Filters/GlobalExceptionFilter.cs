@@ -14,22 +14,23 @@ namespace NoorsoftHomework.Web.Filters
             app.UseExceptionHandler(builder => builder.Run(async context =>
             {
                 var exception = context.Features.Get<IExceptionHandlerPathFeature>().Error;
-                var (statusCode, data)      = ResponseFactory(exception);
-                context.Response.StatusCode = statusCode;
-                await context.Response.WriteAsJsonAsync(data);
+                var response  = ResponseFactory(exception);
+                context.Response.StatusCode = response.Status;
+                await context.Response.WriteAsJsonAsync(response);
             }));
 
             return app;
         }
 
-        private static ActionResultResource ResponseFactory(Exception? exception)
+        private static ApiResponse ResponseFactory(Exception? exception)
         {
+            const string dateOutOfRangeErrorMessage = "Date number is out of range";
+            const string unexpectedErrorMessage     = "Something went wrong";
             var response = exception switch
             {
-                DateOutOfRangeException => new ActionResultResource(StatusCodes.Status400BadRequest,
-                                                           new {Error = "Date number is out of range"}),
-                _ => new ActionResultResource(StatusCodes.Status500InternalServerError,
-                                     new {Error = "Date number is out of range"}),
+                DateOutOfRangeException => ApiResponse.Error(StatusCodes.Status400BadRequest,
+                                                             dateOutOfRangeErrorMessage),
+                _ => ApiResponse.Error(StatusCodes.Status500InternalServerError, unexpectedErrorMessage),
             };
             return response;
         }

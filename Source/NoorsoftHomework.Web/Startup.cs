@@ -21,7 +21,7 @@ namespace NoorsoftHomework.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
+            services.AddControllers(options => options.Filters.Add<ApiResponseResultFilter>())
                     .AddValidation();
             services.AddDataAccess();
             services.AddActionHttpContextAccessor();
