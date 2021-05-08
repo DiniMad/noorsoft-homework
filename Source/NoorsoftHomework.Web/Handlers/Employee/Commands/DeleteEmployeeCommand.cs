@@ -30,7 +30,7 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Commands
             
             var deleteModel = _mapper.Map<DeleteEmployeeModel>(request);
             await _repository.Delete(deleteModel);
-            return new ActionResultResource(StatusCodes.Status204NoContent, null);
+            return new ActionResultResource(StatusCodes.Status200OK, null);
         }
     }
 }
