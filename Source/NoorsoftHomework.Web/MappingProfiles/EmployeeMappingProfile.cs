@@ -22,16 +22,16 @@ namespace NoorsoftHomework.Web.MappingProfiles
         private void MapEmployeeToEmployeeResource()
         {
             CreateMap<Employee, EmployeeResource>()
-                .ForMember(resource => resource.BirthDate,
-                           expression => expression.MapFrom(employee => employee.BirthDate.ToPersianDate()))
-                .ForMember(resource => resource.RecruitmentDate,
-                           expression => expression.MapFrom(employee => employee.RecruitmentDate.ToPersianDate()))
-                .ForMember(resource => resource.AgeInYears,
-                           expression => expression.MapFrom(employee => employee.BirthDate.TillNowInYears()))
-                .ForMember(resource => resource.WorkExperienceInYears,
-                           expression => expression.MapFrom(employee => employee.RecruitmentDate.TillNowInYears()))
-                .ForMember(resource => resource.IsManager,
-                           expression => expression.MapFrom(employee => employee.SupervisorId == null));
+                .ConstructUsing(employee =>
+                                    new EmployeeResource(employee.Id,
+                                                         employee.FirstName,
+                                                         employee.LastName,
+                                                         employee.BirthDate.ToPersianDate(),
+                                                         employee.RecruitmentDate.ToPersianDate(),
+                                                         employee.SupervisorId,
+                                                         (byte) employee.BirthDate.TillNowInYears(),
+                                                         (byte) employee.RecruitmentDate.TillNowInYears(),
+                                                         employee.SupervisorId == null));
         }
 
         private void MapUpdateEmployeeCommandToUpdateEmployeeModel()
@@ -60,18 +60,16 @@ namespace NoorsoftHomework.Web.MappingProfiles
         private void MapIntIdAndAddEmployeeModelToEmployeeResource()
         {
             CreateMap<(int id, AddEmployeeModel addModel), EmployeeResource>()
-                .ConstructUsing(tuple => new EmployeeResource
-                {
-                    Id                    = tuple.id,
-                    FirstName             = tuple.addModel.FirstName,
-                    LastName              = tuple.addModel.LastName,
-                    BirthDate             = tuple.addModel.BirthDate.ToPersianDate(),
-                    RecruitmentDate       = tuple.addModel.RecruitmentDate.ToPersianDate(),
-                    SupervisorId          = tuple.addModel.SupervisorId,
-                    AgeInYears            = (byte) tuple.addModel.BirthDate.TillNowInYears(),
-                    WorkExperienceInYears = (byte) tuple.addModel.RecruitmentDate.TillNowInYears(),
-                    IsManager             = tuple.addModel.SupervisorId == null,
-                });
+                .ConstructUsing(tuple =>
+                                    new EmployeeResource(tuple.id,
+                                                         tuple.addModel.FirstName,
+                                                         tuple.addModel.LastName,
+                                                         tuple.addModel.BirthDate.ToPersianDate(),
+                                                         tuple.addModel.RecruitmentDate.ToPersianDate(),
+                                                         tuple.addModel.SupervisorId,
+                                                         (byte) tuple.addModel.BirthDate.TillNowInYears(),
+                                                         (byte) tuple.addModel.RecruitmentDate.TillNowInYears(),
+                                                         tuple.addModel.SupervisorId == null));
         }
 
         private void MapDeleteEmployeeCommandToDeleteEmployeeModel()

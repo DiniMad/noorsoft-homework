@@ -4,7 +4,7 @@ using NoorsoftHomework.Web.Controllers;
 
 namespace NoorsoftHomework.Web.Resources.Shared
 {
-    public class DataCollection<TData>
+    public record DataCollection<TData>
     {
         public           IEnumerable<TData>       Collection { get; }
         public           int                      TotalCount { get; }
