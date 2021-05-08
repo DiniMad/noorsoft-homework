@@ -9,9 +9,9 @@ using NoorsoftHomework.Web.Resources.Shared;
 
 namespace NoorsoftHomework.Web.Handlers.Employee.Commands
 {
-    public record DeleteEmployeeCommand(int Id) : IRequest<ApiResponse>;
+    public record DeleteEmployeeCommand(int Id) : IRequest<ActionResultResource>;
 
-    public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, ApiResponse>
+    public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, ActionResultResource>
     {
         private readonly IMapper             _mapper;
         private readonly IEmployeeRepository _repository;
@@ -22,15 +22,15 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Commands
             _repository = repository;
         }
 
-        public async Task<ApiResponse> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResultResource> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
         {
             var isSupervisorModel = _mapper.Map<IsEmployeeSupervisorModel>(request);
             var isSupervisor      = await _repository.IsSupervisor(isSupervisorModel);
-            if (isSupervisor is true) return new ApiResponse(StatusCodes.Status409Conflict, null);
+            if (isSupervisor is true) return new ActionResultResource(StatusCodes.Status409Conflict, null);
             
             var deleteModel = _mapper.Map<DeleteEmployeeModel>(request);
             await _repository.Delete(deleteModel);
-            return new ApiResponse(StatusCodes.Status204NoContent, null);
+            return new ActionResultResource(StatusCodes.Status204NoContent, null);
         }
     }
 }

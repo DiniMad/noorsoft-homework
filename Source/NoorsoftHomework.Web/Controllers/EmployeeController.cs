@@ -20,28 +20,28 @@ namespace NoorsoftHomework.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse>> Get([FromQuery] SortingAndPagingResource resource)
+        public async Task<ActionResult<ActionResultResource>> Get([FromQuery] SortingAndPagingResource resource)
         {
             var (statusCode, data) = await _sender.Send(new GetEmployeesQuery(resource));
             return StatusCode(statusCode, data);
         }
 
         [HttpPost("{id}")]
-        public async Task<ActionResult<ApiResponse>> Update(int id, UpdateEmployeeResource resource)
+        public async Task<ActionResult<ActionResultResource>> Update(int id, UpdateEmployeeResource resource)
         {
             var (statusCode, data) = await _sender.Send(new UpdateEmployeeCommand(id, resource));
             return StatusCode(statusCode, data);
         }
 
         [HttpPost]
-        public async Task<ActionResult<ApiResponse>> Add(AddEmployeeResource resource)
+        public async Task<ActionResult<ActionResultResource>> Add(AddEmployeeResource resource)
         {
             var (statusCode, data) = await _sender.Send(new AddEmployeeCommand(resource));
             return StatusCode(statusCode, data);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ApiResponse>> Delete(int id)
+        public async Task<ActionResult<ActionResultResource>> Delete(int id)
         {
             var (statusCode, data) = await _sender.Send(new DeleteEmployeeCommand(id));
             return StatusCode(statusCode, data);

@@ -22,13 +22,13 @@ namespace NoorsoftHomework.Web.Filters
             return app;
         }
 
-        private static ApiResponse ResponseFactory(Exception? exception)
+        private static ActionResultResource ResponseFactory(Exception? exception)
         {
             var response = exception switch
             {
-                DateOutOfRangeException => new ApiResponse(StatusCodes.Status400BadRequest,
+                DateOutOfRangeException => new ActionResultResource(StatusCodes.Status400BadRequest,
                                                            new {Error = "Date number is out of range"}),
-                _ => new ApiResponse(StatusCodes.Status500InternalServerError,
+                _ => new ActionResultResource(StatusCodes.Status500InternalServerError,
                                      new {Error = "Date number is out of range"}),
             };
             return response;

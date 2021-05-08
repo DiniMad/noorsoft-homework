@@ -10,9 +10,9 @@ using NoorsoftHomework.Web.Resources.Shared;
 
 namespace NoorsoftHomework.Web.Handlers.Employee.Commands
 {
-    public record AddEmployeeCommand(AddEmployeeResource Resource) : IRequest<ApiResponse>;
+    public record AddEmployeeCommand(AddEmployeeResource Resource) : IRequest<ActionResultResource>;
 
-    public class AddEmployeeCommandHandler : IRequestHandler<AddEmployeeCommand, ApiResponse>
+    public class AddEmployeeCommandHandler : IRequestHandler<AddEmployeeCommand, ActionResultResource>
     {
         private readonly IMapper             _mapper;
         private readonly IEmployeeRepository _repository;
@@ -23,12 +23,12 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Commands
             _repository = repository;
         }
 
-        public async Task<ApiResponse> Handle(AddEmployeeCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResultResource> Handle(AddEmployeeCommand request, CancellationToken cancellationToken)
         {
             var addModel         = _mapper.Map<AddEmployeeModel>(request);
             var employeeId       = await _repository.Add(addModel);
             var employeeResource = _mapper.Map<EmployeeResource>((employeeId, addModel));
-            return new ApiResponse(StatusCodes.Status201Created, employeeResource);
+            return new ActionResultResource(StatusCodes.Status201Created, employeeResource);
         }
     }
 }

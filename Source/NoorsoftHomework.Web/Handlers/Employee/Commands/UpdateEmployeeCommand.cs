@@ -10,9 +10,9 @@ using NoorsoftHomework.Web.Resources.Shared;
 
 namespace NoorsoftHomework.Web.Handlers.Employee.Commands
 {
-    public record UpdateEmployeeCommand(int Id, UpdateEmployeeResource Resource) : IRequest<ApiResponse>;
+    public record UpdateEmployeeCommand(int Id, UpdateEmployeeResource Resource) : IRequest<ActionResultResource>;
 
-    public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, ApiResponse>
+    public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, ActionResultResource>
     {
         private readonly IMapper             _mapper;
         private readonly IEmployeeRepository _repository;
@@ -23,11 +23,11 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Commands
             _repository = repository;
         }
 
-        public async Task<ApiResponse> Handle(UpdateEmployeeCommand command, CancellationToken cancellationToken)
+        public async Task<ActionResultResource> Handle(UpdateEmployeeCommand command, CancellationToken cancellationToken)
         {
             var updateModel = _mapper.Map<UpdateEmployeeModel>(command);
             await _repository.Update(updateModel);
-            return new ApiResponse(StatusCodes.Status204NoContent, null);
+            return new ActionResultResource(StatusCodes.Status204NoContent, null);
         }
     }
 }

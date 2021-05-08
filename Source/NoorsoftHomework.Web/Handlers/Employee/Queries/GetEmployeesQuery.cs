@@ -14,9 +14,9 @@ using NoorsoftHomework.Web.Resources.Shared;
 
 namespace NoorsoftHomework.Web.Handlers.Employee.Queries
 {
-    public record GetEmployeesQuery(SortingAndPagingResource Resource) : IRequest<ApiResponse>;
+    public record GetEmployeesQuery(SortingAndPagingResource Resource) : IRequest<ActionResultResource>;
 
-    public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, ApiResponse>
+    public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, ActionResultResource>
     {
         private readonly IEmployeeRepository _repository;
         private readonly IUrlHelper          _urlHelper;
@@ -32,7 +32,7 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Queries
             _mapper     = mapper;
         }
 
-        public async Task<ApiResponse> Handle(GetEmployeesQuery query, CancellationToken cancellationToken)
+        public async Task<ActionResultResource> Handle(GetEmployeesQuery query, CancellationToken cancellationToken)
         {
             var resource = query.Resource;
 
@@ -41,13 +41,13 @@ namespace NoorsoftHomework.Web.Handlers.Employee.Queries
                                                         resource.Offset,
                                                         resource.PageSize);
             var employees = await _repository.Get(parameters);
-            if (employees.Count is 0) return new ApiResponse(StatusCodes.Status404NotFound, null);
+            if (employees.Count is 0) return new ActionResultResource(StatusCodes.Status404NotFound, null);
 
             var employeesCount = await _repository.Count();
             var employeesResource = _mapper.Map<List<EmployeeResource>>(employees);
             var data = new DataCollection<EmployeeResource>(employeesResource, employeesCount, resource, _urlHelper);
 
-            return new ApiResponse(StatusCodes.Status200OK, data);
+            return new ActionResultResource(StatusCodes.Status200OK, data);
         }
     }
 }
