@@ -22,16 +22,16 @@ namespace NoorsoftHomework.Web.MappingProfiles
         private void MapEmployeeToEmployeeResource()
         {
             CreateMap<Employee, EmployeeResource>()
-                .ConstructUsing(employee =>
-                                    new EmployeeResource(employee.Id,
-                                                         employee.FirstName,
-                                                         employee.LastName,
-                                                         employee.BirthDate.ToPersianDate(),
-                                                         employee.RecruitmentDate.ToPersianDate(),
-                                                         employee.SupervisorId,
-                                                         (byte) employee.BirthDate.TillNowInYears(),
-                                                         (byte) employee.RecruitmentDate.TillNowInYears(),
-                                                         employee.SupervisorId == null));
+                .ForMember(resource => resource.BirthDate,
+                           expression => expression.MapFrom(employee => employee.BirthDate.ToPersianDate()))
+                .ForMember(resource => resource.RecruitmentDate,
+                           expression => expression.MapFrom(employee => employee.RecruitmentDate.ToPersianDate()))
+                .ForMember(resource => resource.AgeInYears,
+                           expression => expression.MapFrom(employee => employee.BirthDate.TillNowInYears()))
+                .ForMember(resource => resource.WorkExperienceInYears,
+                           expression => expression.MapFrom(employee => employee.RecruitmentDate.TillNowInYears()))
+                .ForMember(resource => resource.IsManager,
+                           expression => expression.MapFrom(employee => employee.SupervisorId == null));
         }
 
         private void MapUpdateEmployeeCommandToUpdateEmployeeModel()

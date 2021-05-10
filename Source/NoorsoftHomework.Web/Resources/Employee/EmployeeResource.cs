@@ -8,5 +8,18 @@ namespace NoorsoftHomework.Web.Resources.Employee
                                    int?   SupervisorId,
                                    byte   AgeInYears,
                                    byte   WorkExperienceInYears,
-                                   bool   IsManager);
+                                   bool   IsManager)
+    {
+        public EmployeeResource() : this(default,
+                                         default,
+                                         default,
+                                         default,
+                                         default,
+                                         default,
+                                         default,
+                                         default,
+                                         default)
+        {
+        }
+    }
 }
