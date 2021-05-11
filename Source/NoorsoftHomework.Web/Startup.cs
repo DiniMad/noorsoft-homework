@@ -19,6 +19,7 @@ namespace NoorsoftHomework.Web
             services.AddActionHttpContextAccessor();
             services.AddMediatR(typeof(Startup));
             services.AddAutoMapper(typeof(Startup));
+            services.AddTheCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,6 +34,8 @@ namespace NoorsoftHomework.Web
             app.UseGlobalExceptionFilter();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
