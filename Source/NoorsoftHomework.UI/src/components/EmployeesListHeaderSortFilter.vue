@@ -1,6 +1,7 @@
 <template>
-  <button :class="templateClasses">
-    <font-awesome-icon v-if="selected" icon="sort-amount-down-alt" class="sort-icon"/>
+  <button :class="templateClasses" @click="$emit('clicked',text)">
+    <font-awesome-icon v-if="selected && ascending" icon="sort-amount-down-alt" class="sort-icon"/>
+    <font-awesome-icon v-if="selected && !ascending" icon="sort-amount-up" class="sort-icon"/>
     <span class="fs-3">
     {{ text }}
     </span>
@@ -12,14 +13,15 @@ export default {
   name: "EmployeesListHeaderSortFilter",
   props: {
     text: String,
-    selected: Boolean
+    selected: Boolean,
+    ascending: Boolean,
   },
   computed: {
     templateClasses: function () {
       return this.selected
-             ? "template d-grid align-items-center rounded-pill fs-4 fw-bold text-center py-1 px-2 selected"
-             : "template d-grid align-items-center rounded-pill fs-4 fw-bold text-center py-1 px-5"
-    },
+             ? "template d-grid align-items-center rounded-pill fs-4 fw-bold text-center py-1 mx-4 px-2 selected"
+             : "template d-grid align-items-center rounded-pill fs-4 fw-bold text-center py-1 mx-4 px-5"
+    }
   }
 }
 </script>
