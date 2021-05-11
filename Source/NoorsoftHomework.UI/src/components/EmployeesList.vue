@@ -4,7 +4,14 @@
     <div class="list d-flex justify-content-evenly align-items-start flex-wrap gap-5 mx-5">
       <EmployeeItem v-for="employee in employees" :employee="employee"/>
     </div>
-    <EmployeesListFooter/>
+    <EmployeesListFooter :total-count="totalCount"
+                         :page-size="sortAndPagingResource.pageSize"
+                         :page-number="sortAndPagingResource.pageNumber"
+                         :has-previous="hasPrevious"
+                         :has-next="hasNext"
+                         @page-size-changed="onPageSizeChanged"
+                         @previous="previous"
+                         @next="next"/>
   </div>
 </template>
 <script>
@@ -19,6 +26,9 @@ export default {
   data() {
     return {
       employees: [],
+      totalCount: 0,
+      hasPrevious: false,
+      hasNext: false,
       sortAndPagingResource: {
         sortColumn: "firstName",
         sortDirection: "asc",
@@ -32,11 +42,23 @@ export default {
       const response = await axios.get(endpoints.api.getEmployees, {params: this.sortAndPagingResource})
       if (response.status > 200) return;
       this.employees = response.data.data.collection
+      this.totalCount = response.data.data.totalCount
+      this.hasPrevious = Boolean(response.data.data.previous)
+      this.hasNext = Boolean(response.data.data.next)
     },
     sort: function (parameters) {
       this.sortAndPagingResource.sortColumn = parameters.column
       this.sortAndPagingResource.sortDirection = parameters.direction
-      this.test = !this.test
+    },
+    onPageSizeChanged: function (value) {
+      this.sortAndPagingResource.pageSize = value
+      this.sortAndPagingResource.pageNumber = 1
+    },
+    previous: function () {
+      this.sortAndPagingResource.pageNumber--
+    },
+    next: function () {
+      this.sortAndPagingResource.pageNumber++
     }
   },
   watch: {
