@@ -3,10 +3,7 @@
     <div v-if="employees.length===0" class="fs-3 fw-bold">
       کارمندی ایجاد نشده است
     </div>
-    <EmployeeItem v-for="employee in employees"
-                  :employee="employee"
-                  style="width: 25rem;"
-                  @re-fetch="$emit('reFetch')"/>
+    <EmployeeItem v-for="employee in employees" :employee="employee" @re-fetch="$emit('reFetch')"/>
   </div>
 </template>
 <script>

@@ -108,6 +108,7 @@ export default {
 .employee-item {
   cursor: default;
   background: #eee;
+  width: 25rem;
   transition: background-color .5s;
   transform: translateY(0);
 
