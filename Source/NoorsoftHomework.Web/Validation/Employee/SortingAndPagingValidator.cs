@@ -9,7 +9,7 @@ namespace NoorsoftHomework.Web.Validation.Employee
         {
             RuleFor(resource => resource.SortColumn).IsInEnum();
             RuleFor(resource => resource.SortDirection).IsInEnum();
-            RuleFor(resource => resource.PageSize).GreaterThan(0).LessThanOrEqualTo(20);
+            RuleFor(resource => resource.PageSize).GreaterThan(0);
             RuleFor(resource => resource.PageNumber).GreaterThan(0);
         }
     }
