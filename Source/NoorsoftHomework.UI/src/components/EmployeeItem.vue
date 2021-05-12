@@ -13,7 +13,7 @@
                         icon="birthday-cake"/>
     </div>
     <div class="action-menu position-absolute d-flex justify-content-center align-items-center rounded-bottom">
-      <EmployeeItemActionButton icon="trash" classes="text-danger"/>
+      <EmployeeItemActionButton icon="trash" classes="text-danger" @clicked="onDelete"/>
       <div class="space"/>
       <EmployeeItemActionButton icon="edit" classes="text-primary"/>
       <div class="space"/>
@@ -25,6 +25,8 @@
 <script>
 import EmployeeItemDate from "@/components/EmployeeItemDate";
 import EmployeeItemActionButton from "@/components/EmployeeItemActionButton";
+import endpoints from "@/utilities/endpoints";
+import axios from "axios";
 
 export default {
   name: "EmployeeItem",
@@ -44,8 +46,14 @@ export default {
   methods: {
     mouseEnter: function () {
       this.isHovering = true;
-    }, mouseLeave: function () {
+    },
+    mouseLeave: function () {
       this.isHovering = false;
+    },
+    onDelete: async function () {
+      const url = endpoints.api.deleteEmployee(this.employee.id)
+      await axios.delete(url)
+      this.$emit("reFetch")
     }
   },
   components: {

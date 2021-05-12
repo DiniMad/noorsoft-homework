@@ -1,5 +1,5 @@
 <template>
-  <button class="d-flex justify-content-center align-items-center">
+  <button class="d-flex justify-content-center align-items-center" @click="$emit('clicked')">
     <font-awesome-icon :icon="icon" :class="classes"/>
   </button>
 </template>
