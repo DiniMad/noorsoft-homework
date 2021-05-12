@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     fetchEmployees: async function () {
-      const response = await axios.get(endpoints.api.getEmployees, {params: this.sortAndPagingResource})
+      const response = await axios.get(endpoints.api.getEmployees(), {params: this.sortAndPagingResource})
       if (response.status > 200) return;
       this.employees = response.data.data.collection
       this.totalCount = response.data.data.totalCount
