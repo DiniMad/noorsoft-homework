@@ -1,5 +1,8 @@
 <template>
-  <div class="employee-item position-relative rounded pb-1" @mouseenter="mouseEnter" @mouseleave="mouseLeave">
+  <div class="employee-item position-relative rounded pb-1"
+       :style="style"
+       @mouseenter="mouseEnter"
+       @mouseleave="mouseLeave">
     <font-awesome-icon v-if="employee.isManager" icon="star" class="position-absolute top-0 end-0 fs-2 text-primary"/>
     <p class="text-center fs-1">{{ fullName }}</p>
     <div class="d-flex justify-content-evenly">
@@ -26,7 +29,7 @@
                @canceled="displayModal=false"
                @done="OnModalDone"
                @confirmed="deleteConfirmed"
-    :title="`${employee.firstName} ${employee.lastName} حذف شود؟`"/>
+               :title="`${employee.firstName} ${employee.lastName} حذف شود؟`"/>
   </Modal>
 </template>
 
@@ -50,7 +53,8 @@ export default {
     }
   },
   props: {
-    employee: Object
+    employee: Object,
+    style: ""
   },
   computed: {
     fullName: function () {
@@ -65,20 +69,20 @@ export default {
       this.isHovering = false;
     },
     onDelete: async function () {
-      this.modalComponent="ConfirmForm"
+      this.modalComponent = "ConfirmForm"
       this.displayModal = true
     },
     onEdit: async function () {
-      this.modalComponent="EmployeeForm"
+      this.modalComponent = "EmployeeForm"
       this.formEmployee = this.employee
       this.displayModal = true
     },
     onNew: async function () {
-      this.modalComponent="EmployeeForm"
+      this.modalComponent = "EmployeeForm"
       this.formEmployee = {id: null, supervisorId: this.employee.id}
       this.displayModal = true
     },
-    deleteConfirmed:async function () {
+    deleteConfirmed: async function () {
       this.displayModal = false
       const url = endpoints.api.deleteEmployee(this.employee.id)
       await axios.delete(url)
