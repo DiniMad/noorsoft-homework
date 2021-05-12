@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="d-flex flex-column justify-content-between align-items-center p-5">
     <EmployeesListHeader @sort="onSorted"/>
-    <EmployeesList :employees="employees" @re-fetch="$emit('reFetch')"/>
+    <EmployeesList :employees="employees" @re-fetch="reFetch"/>
     <EmployeesListFooter :total-count="totalCount"
                          :page-size="sortAndPagingResource.pageSize"
                          :page-number="sortAndPagingResource.pageNumber"
@@ -9,7 +9,8 @@
                          :has-next="hasNext"
                          @page-size-changed="onPageSizeChanged"
                          @previous="previous"
-                         @next="next"/>
+                         @next="next"
+                         @re-fetch="reFetch"/>
   </div>
 </template>
 
@@ -98,7 +99,7 @@ button {
   outline: none;
 }
 
-#app{
+#app {
   height: 100vh;
   width: 100vw;
 }
