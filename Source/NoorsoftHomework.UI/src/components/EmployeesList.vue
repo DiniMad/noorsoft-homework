@@ -13,7 +13,7 @@ import endpoints from "@/utilities/endpoints"
 export default {
   name: "EmployeesList",
   props: {
-    employees: []
+    employees: Array
   },
   emits: ["reFetch"],
   components: {EmployeesListFooter, EmployeesListHeader, EmployeeItem}
