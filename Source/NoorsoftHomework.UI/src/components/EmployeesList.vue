@@ -1,7 +1,7 @@
 <template>
   <div id="employee-list" class="d-flex flex-column justify-content-between align-items-center p-5">
     <EmployeesListHeader @sort="sort"/>
-    <div class="list d-flex justify-content-evenly align-items-start flex-wrap gap-5 mx-5">
+    <div class="list d-flex flex-row-reverse justify-content-evenly align-items-start flex-wrap gap-5 mx-5">
       <EmployeeItem v-for="employee in employees" :employee="employee"/>
     </div>
     <EmployeesListFooter :total-count="totalCount"
