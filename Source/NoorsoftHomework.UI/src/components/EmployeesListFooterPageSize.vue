@@ -23,7 +23,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 #page-size {
   grid-column: 1;
   grid-row: 1;

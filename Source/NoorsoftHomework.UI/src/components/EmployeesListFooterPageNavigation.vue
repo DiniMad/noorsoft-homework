@@ -58,7 +58,7 @@ export default {
 
 <style scoped lang="scss">
 #navigation {
-  grid-column: 1/3;
+  grid-column: 2;
   grid-row: 1;
 
   .navigation-button {
