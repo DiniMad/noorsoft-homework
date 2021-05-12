@@ -85,7 +85,7 @@ export default {
     deleteConfirmed: async function () {
       this.displayModal = false
       const url = endpoints.api.deleteEmployee(this.employee.id)
-      await axios.delete(url)
+      await axios.delete(url).catch(error => this.$toast.error(error.response.data.errorMessage))
       this.$emit("reFetch")
     },
     OnModalDone: function () {

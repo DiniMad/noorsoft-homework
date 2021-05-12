@@ -82,12 +82,12 @@ export default {
   methods: {
     createRequest: async function () {
       const url = endpoints.api.createEmployee()
-      await axios.post(url, this.employee)
+      await axios.post(url, this.employee).catch(error => this.$toast.error(error.response.data.errorMessage))
       this.$emit("done")
     },
     updateRequest: async function () {
       const url = endpoints.api.updateEmployee(this.employee.id)
-      await axios.post(url, this.employee)
+      await axios.post(url, this.employee).catch(error => this.$toast.error(error.response.data.errorMessage))
       this.$emit("done")
     },
     onSubmit: function () {

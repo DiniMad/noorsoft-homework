@@ -14,6 +14,7 @@ import {
     faSortAmountUp
 } from "@fortawesome/free-solid-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome"
+import Toaster from "@meforma/vue-toaster";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -29,5 +30,9 @@ library.add(faSortAmountDownAlt)
 library.add(faSortAmountUp)
 
 createApp(App)
+    .use(Toaster, {
+        position: "top-right",
+        duration: 5000
+    })
     .component("font-awesome-icon", FontAwesomeIcon)
     .mount("#app")
