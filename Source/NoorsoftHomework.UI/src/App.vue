@@ -40,7 +40,8 @@ export default {
   methods: {
     fetchEmployees: async function () {
       const response = await axios.get(endpoints.api.getEmployees(), {params: this.sortAndPagingResource})
-                                  .catch(error => this.$toast.error(error.response.data.errorMessage))
+                                  .catch(error => error.response.data.errorMessage &&
+                                      this.$toast.error(error.response.data.errorMessage))
       if (response.status !== 200) return;
       this.employees = response.data.data.collection
       this.totalCount = response.data.data.totalCount
@@ -100,7 +101,7 @@ button {
   outline: none;
 }
 
-.c-toast.c-toast--error{
+.c-toast.c-toast--error {
   padding: 1.5rem !important;
   font-size: 1.4rem;
 }
