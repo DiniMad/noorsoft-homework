@@ -1,4 +1,7 @@
-﻿DROP DATABASE NoorsoftHomework
+﻿USE master
+GO
+
+DROP DATABASE  IF EXISTS  NoorsoftHomework
 GO
 
 CREATE DATABASE NoorsoftHomework
@@ -164,3 +167,16 @@ BEGIN TRANSACTION [DeleteEmployee]
     RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
 	END CATCH
 GO
+
+
+----Seed DataBase
+--EXEC InsertEmployee @FirstName = N'حسین', @LastName = N'حسینی', @BirthDate = '1997-6-30', @RecruitmentDate = '2017-2-2', @SupervisorId = NULL
+--EXEC InsertEmployee @FirstName = N'حسن', @LastName = N'حسنی', @BirthDate = '2009-6-30', @RecruitmentDate = '2017-9-2', @SupervisorId = 1
+--EXEC InsertEmployee @FirstName = N'محسن', @LastName = N'محسنی', @BirthDate = '2001-6-30', @RecruitmentDate = '2018-2-2', @SupervisorId = 1
+--EXEC InsertEmployee @FirstName = N'محممد', @LastName = N'محممدی', @BirthDate = '2003-6-30', @RecruitmentDate = '2018-8-2', @SupervisorId = 1
+--EXEC InsertEmployee @FirstName = N'مهدی', @LastName = N'مهدیی', @BirthDate = '2005-6-30', @RecruitmentDate = '2019-1-2', @SupervisorId = NULL
+--EXEC InsertEmployee @FirstName = N'علی', @LastName = N'علیی', @BirthDate = '2017-6-30', @RecruitmentDate = '2019-5-2', @SupervisorId = 5
+--EXEC InsertEmployee @FirstName = N'جواد', @LastName = N'جوادی', @BirthDate = '2009-6-30', @RecruitmentDate = '2019-11-2', @SupervisorId = 5
+--EXEC InsertEmployee @FirstName = N'احمد', @LastName = N'احمدی', @BirthDate = '2011-6-30', @RecruitmentDate = '2020-1-2', @SupervisorId = NULL
+--EXEC InsertEmployee @FirstName = N'حامد', @LastName = N'حامدی', @BirthDate = '2013-6-30', @RecruitmentDate = '2020-5-2', @SupervisorId = 8
+--EXEC InsertEmployee @FirstName = N'رضا', @LastName = N'رضای', @BirthDate = '2015-6-30', @RecruitmentDate = '2021-1-1', @SupervisorId = 8
