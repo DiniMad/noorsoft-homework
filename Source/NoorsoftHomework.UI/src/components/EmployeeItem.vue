@@ -1,11 +1,11 @@
 <template>
-  <div class="employee-item position-relative rounded pb-1"
+  <div class="employee-item position-relative d-flex flex-column justify-content-center align-items-center rounded pb-1"
        :style="style"
        @mouseenter="mouseEnter"
        @mouseleave="mouseLeave">
     <font-awesome-icon v-if="employee.isManager" icon="star" class="position-absolute top-0 end-0 fs-2 text-primary"/>
-    <p class="text-center fs-1">{{ fullName }}</p>
-    <div class="d-flex justify-content-evenly">
+    <p class="text-center fs-1 h-50 overflow-hidden text-nowrap">{{ fullName }}</p>
+    <div class="d-flex justify-content-evenly w-100">
       <EmployeeItemDate :years="employee.workExperienceInYears"
                         :date="employee.birthDate"
                         :is-hovering="isHovering"
@@ -109,6 +109,7 @@ export default {
   cursor: default;
   background: #eee;
   width: 25rem;
+  height: 9rem;
   transition: background-color .5s;
   transform: translateY(0);
 
@@ -122,6 +123,12 @@ export default {
     .action-menu {
       opacity: 1;
     }
+  }
+
+  p {
+    direction: rtl;
+    text-overflow: ellipsis;
+    width: 80%;
   }
 
   .action-menu {
